@@ -31,6 +31,9 @@ class CepModel {
     return '$street, $neighborhood';
   }
 
+  String get apiImage =>
+      'https://atlasescolar.ibge.gov.br/images/bandeiras/ufs/${state.toLowerCase()}.png';
+
   @override
   String toString() {
     return 'CepModel(cep: $cep, state: $state, city: $city, '
