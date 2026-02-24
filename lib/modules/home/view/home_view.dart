@@ -30,14 +30,18 @@ class _HomeViewState extends State<HomeView> {
                   child: Text('Buscar CEP', textAlign: TextAlign.center),
                 ),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushNamed(context, AppRoutes.cnpj);
+                  },
                   style: ElevatedButton.styleFrom(
                     minimumSize: const Size(double.infinity, 48),
                   ),
                   child: Text('Buscar CNPJ', textAlign: TextAlign.center),
                 ),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushNamed(context, AppRoutes.domain);
+                  },
                   style: ElevatedButton.styleFrom(
                     minimumSize: const Size(double.infinity, 48),
                   ),

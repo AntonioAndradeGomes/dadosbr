@@ -28,7 +28,7 @@ class _CepViewState extends State<CepView> {
     super.dispose();
   }
 
-  void _submit() async {
+  void _submit() {
     final cep = _controller.text.replaceAll(RegExp(r'\D'), '');
     String? message;
     if (cep.isEmpty) {
@@ -59,6 +59,7 @@ class _CepViewState extends State<CepView> {
         body: SingleChildScrollView(
           padding: const EdgeInsets.all(16),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             spacing: 16,
             children: [
               ValueListenableBuilder(
@@ -85,7 +86,7 @@ class _CepViewState extends State<CepView> {
                 valueListenable: _viewmodel,
                 builder: (_, state, child) {
                   if (state is LoadingState) {
-                    return CircularProgressIndicator();
+                    return Center(child: CircularProgressIndicator());
                   }
                   if (state is SuccessState<CepModel>) {
                     final cep = state.data;
