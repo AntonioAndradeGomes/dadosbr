@@ -15,7 +15,7 @@ class CepRepository {
       final cepInfo = await _cepService.getCepInfo(cep);
       return Success(CepModel.fromJson(cepInfo));
     } on DioException catch (e) {
-      return Failure(DioEceptionHandler.handle(e));
+      return Failure(DioExceptionHandler.handle(e));
     } catch (e) {
       return Failure(const ServerException());
     }

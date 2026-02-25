@@ -10,6 +10,7 @@ class SearchInputWidget extends StatelessWidget {
   final VoidCallback onSubmit;
   final TextInputType keyboardType;
   final List<TextInputFormatter>? inputFormatters;
+  final FocusNode? focusNode;
   const SearchInputWidget({
     required this.titleButton,
     super.key,
@@ -20,6 +21,7 @@ class SearchInputWidget extends StatelessWidget {
     required this.onSubmit,
     required this.keyboardType,
     this.inputFormatters,
+    this.focusNode,
   });
 
   @override
@@ -29,6 +31,7 @@ class SearchInputWidget extends StatelessWidget {
       children: [
         Expanded(
           child: TextField(
+            focusNode: focusNode,
             controller: controller,
             readOnly: isLoading,
             keyboardType: keyboardType,
@@ -41,6 +44,13 @@ class SearchInputWidget extends StatelessWidget {
               hintText: hint,
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(8),
+              ),
+              suffixIcon: InkWell(
+                onTap: () {
+                  controller.clear();
+                  focusNode?.requestFocus();
+                },
+                child: Icon(Icons.close),
               ),
             ),
           ),

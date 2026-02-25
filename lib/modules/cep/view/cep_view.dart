@@ -20,11 +20,13 @@ class CepView extends StatefulWidget {
 class _CepViewState extends State<CepView> {
   final _controller = TextEditingController();
   final _viewmodel = getIt<CepViewmodel>();
+  final _focusNode = FocusNode();
 
   @override
   void dispose() {
     _controller.dispose();
     _viewmodel.dispose();
+    _focusNode.dispose();
     super.dispose();
   }
 
@@ -56,51 +58,54 @@ class _CepViewState extends State<CepView> {
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
         appBar: AppBar(title: const Text('Buscar CEP')),
-        body: SingleChildScrollView(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            spacing: 16,
-            children: [
-              ValueListenableBuilder(
-                valueListenable: _viewmodel,
-                builder: (_, value, child) {
-                  final isLoading = value is LoadingState;
-                  return SearchInputWidget(
-                    titleButton: 'Buscar',
-                    controller: _controller,
-                    label: "CEP",
-                    hint: "Digite o CEP",
-                    onSubmit: _submit,
-                    keyboardType: TextInputType.number,
-                    isLoading: isLoading,
-                    inputFormatters: [
-                      FilteringTextInputFormatter.digitsOnly,
-                      CepInputFormatter(ponto: false),
-                    ],
-                  );
-                },
-              ),
+        body: SafeArea(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              spacing: 16,
+              children: [
+                ValueListenableBuilder(
+                  valueListenable: _viewmodel,
+                  builder: (_, value, child) {
+                    final isLoading = value is LoadingState;
+                    return SearchInputWidget(
+                      focusNode: _focusNode,
+                      titleButton: 'Buscar',
+                      controller: _controller,
+                      label: "CEP",
+                      hint: "Digite o CEP",
+                      onSubmit: _submit,
+                      keyboardType: TextInputType.number,
+                      isLoading: isLoading,
+                      inputFormatters: [
+                        FilteringTextInputFormatter.digitsOnly,
+                        CepInputFormatter(ponto: false),
+                      ],
+                    );
+                  },
+                ),
 
-              ValueListenableBuilder(
-                valueListenable: _viewmodel,
-                builder: (_, state, child) {
-                  if (state is LoadingState) {
-                    return Center(child: CircularProgressIndicator());
-                  }
-                  if (state is SuccessState<CepModel>) {
-                    final cep = state.data;
-                    return CepCardWidget(cep: cep);
-                  }
-                  if (state is ErrorState<CepModel>) {
-                    final error = state.exception as AppException;
-                    return AppExceptionWidget(exception: error);
-                  }
-                  return child!;
-                },
-                child: const SizedBox(),
-              ),
-            ],
+                ValueListenableBuilder(
+                  valueListenable: _viewmodel,
+                  builder: (_, state, child) {
+                    if (state is LoadingState) {
+                      return Center(child: CircularProgressIndicator());
+                    }
+                    if (state is SuccessState<CepModel>) {
+                      final cep = state.data;
+                      return CepCardWidget(cep: cep);
+                    }
+                    if (state is ErrorState<CepModel>) {
+                      final error = state.exception as AppException;
+                      return AppExceptionWidget(exception: error);
+                    }
+                    return child!;
+                  },
+                  child: const SizedBox(),
+                ),
+              ],
+            ),
           ),
         ),
       ),

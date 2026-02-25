@@ -4,7 +4,7 @@ class CepModel {
   final String city;
   final String? neighborhood;
   final String? street;
-  final String service;
+  final String? service;
 
   const CepModel({
     required this.cep,
@@ -12,7 +12,7 @@ class CepModel {
     required this.city,
     this.neighborhood,
     this.street,
-    required this.service,
+    this.service,
   });
 
   factory CepModel.fromJson(Map<String, dynamic> json) {
@@ -22,12 +22,17 @@ class CepModel {
       city: json['city'] as String,
       neighborhood: json['neighborhood'],
       street: json['street'],
-      service: json['service'] as String,
+      service: json['service'],
     );
   }
 
   String? get address {
-    if (neighborhood == null || street == null) return null;
+    if (neighborhood == null ||
+        street == null ||
+        neighborhood!.isEmpty ||
+        street!.isEmpty) {
+      return null;
+    }
     return '$street, $neighborhood';
   }
 

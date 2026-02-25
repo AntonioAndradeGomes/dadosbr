@@ -2,7 +2,7 @@ import 'package:dadosbr/core/errors/app_exception.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
-abstract class DioEceptionHandler {
+abstract class DioExceptionHandler {
   static AppException handle(DioException e) {
     final data = e.response?.data;
 

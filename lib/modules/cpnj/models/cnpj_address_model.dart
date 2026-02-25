@@ -30,17 +30,19 @@ class CnpjAddressModel {
       cep != null;
 
   String get fullAddress {
-    if (!hasAddress) return 'Endereço não informado';
+    // helper local
+    String? notEmpty(String? value) =>
+        (value == null || value.trim().isEmpty) ? null : value.trim();
 
     final parts = [
-      if (tipoLogradouro != null) tipoLogradouro,
-      if (logradouro != null) logradouro,
-      if (numero != null) 'nº $numero',
-      if (complemento != null && complemento!.isNotEmpty) complemento,
-      if (bairro != null) bairro,
-      if (municipio != null) municipio,
-      if (uf != null) uf,
-      if (cep != null) cep,
+      if (notEmpty(tipoLogradouro) != null) notEmpty(tipoLogradouro),
+      if (notEmpty(logradouro) != null) notEmpty(logradouro),
+      if (notEmpty(numero) != null) 'nº ${notEmpty(numero)}',
+      if (notEmpty(complemento) != null) notEmpty(complemento),
+      if (notEmpty(bairro) != null) notEmpty(bairro),
+      if (notEmpty(municipio) != null) notEmpty(municipio),
+      if (notEmpty(uf) != null) notEmpty(uf),
+      if (notEmpty(cep) != null) notEmpty(cep),
     ];
     return parts.join(', ');
   }
